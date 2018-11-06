@@ -10,10 +10,14 @@ import de.bertilmuth.javadataclass.read.YamlClassSpecificationReader;
 public class Main {
 
 	public static void main(String[] args) throws Exception {
+		// Make sure there is exactly one command line argument
 		if (args.length != 1) {
 			System.out.println("Please supply exactly one argument, the absolute path of the YAML file.");
 			return;
 		}
+		
+		// Get the YAML file's handle, and the directory it's contained in
+		// (generated files will be placed there)
 		final String yamlFilePath = args[0];
 		final File yamlFile = new File(yamlFilePath);
 		final File yamlDirectory = yamlFile.getParentFile();
