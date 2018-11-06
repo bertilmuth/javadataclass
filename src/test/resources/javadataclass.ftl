@@ -12,5 +12,8 @@ public class ${classSpecification.className}{
 	public ${f.fieldType} get${f.fieldName?cap_first}(){
 		return ${f.fieldName};
 	}
+	public void set${f.fieldName?cap_first}(${f.fieldType} ${f.fieldName}){
+		this.${f.fieldName} = ${f.fieldName};
+	}
 </#list>	
 }
