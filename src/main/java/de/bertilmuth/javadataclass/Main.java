@@ -10,7 +10,7 @@ import de.bertilmuth.javadataclass.read.YamlClassSpecificationReader;
 public class Main {
 
 	public static void main(String[] args) throws Exception {
-		// Make sure there is exactly one command line argument
+		// Make sure there is exactly one command line argument, the path to the YAML file
 		if (args.length != 1) {
 			System.out.println("Please supply exactly one argument, the absolute path of the YAML file.");
 			return;
@@ -20,15 +20,15 @@ public class Main {
 		// (generated files will be placed there)
 		final String yamlFilePath = args[0];
 		final File yamlFile = new File(yamlFilePath);
-		final File yamlDirectory = yamlFile.getParentFile();
+		final File outputDirectory = yamlFile.getParentFile();
 
-		// Step 1: Read in a YAML file, into an in-memory model of class specifications
+		// Step 1: Read in the YAML file, into an in-memory model of class specifications
 		YamlClassSpecificationReader yamlReader = new YamlClassSpecificationReader();
 		List<ClassSpecification> classSpecifications = yamlReader.read(yamlFile);
 
 		// Step 2: Generate Java source files from the class specifications
 		JavaDataClassGenerator javaDataClassGenerator = new JavaDataClassGenerator();
-		javaDataClassGenerator.generateJavaSourceFiles(classSpecifications, yamlDirectory);
+		javaDataClassGenerator.generateJavaSourceFiles(classSpecifications, outputDirectory);
 
 		System.out.println("Successfully generated class files.");
 	}

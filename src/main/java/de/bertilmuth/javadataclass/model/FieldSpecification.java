@@ -1,20 +1,19 @@
 package de.bertilmuth.javadataclass.model;
 
 public class FieldSpecification {
-	private String fieldName;
-	private String fieldType;
+	private String name;
+	private String type;
 
 	public FieldSpecification(String fieldName, String fieldType) {
-		this.fieldName = fieldName;
-		this.fieldType = fieldType;
+		this.name = fieldName;
+		this.type = fieldType;
 	}
 
-	public String getFieldName() {
-		return fieldName;
+	public String getName() {
+		return name;
 	}
 
-	public String getFieldType() {
-		return fieldType;
+	public String getType() {
+		return type;
 	}
-
 }

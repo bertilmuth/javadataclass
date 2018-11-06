@@ -34,7 +34,7 @@ public class JavaDataClassGenerator {
 			dataModel.put("classSpecification", classSpecification);
 			Template template = configuration.getTemplate(TEMPLATE_FILE_NAME);
 			
-			File outputFile = new File(yamlFileDirectory, classSpecification.getClassName() + ".java");
+			File outputFile = new File(yamlFileDirectory, classSpecification.getName() + ".java");
 			Writer outputFileWriter = new FileWriter(outputFile);
 			
 			template.process(dataModel, outputFileWriter);

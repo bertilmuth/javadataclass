@@ -5,16 +5,16 @@ import java.util.Collections;
 import java.util.List;
 
 public class ClassSpecification {
-	private String className;
+	private String name;
 	private List<FieldSpecification> fieldSpecifications;
 
 	public ClassSpecification(String className) {
-		this.className = className;
+		this.name = className;
 		this.fieldSpecifications = new ArrayList<>();
 	}
 
-	public Object getClassName() {
-		return className;
+	public String getName() {
+		return name;
 	}
 
 	public List<FieldSpecification> getFieldSpecifications() {
