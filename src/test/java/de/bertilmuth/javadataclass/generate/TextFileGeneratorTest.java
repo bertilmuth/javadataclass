@@ -3,6 +3,7 @@ package de.bertilmuth.javadataclass.generate;
 import static org.junit.Assert.assertTrue;
 
 import java.io.File;
+import java.nio.file.Files;
 import java.util.Arrays;
 import java.util.List;
 
@@ -16,11 +17,13 @@ public class TextFileGeneratorTest {
 	private static final String FIELDLESS_CLASS = "FieldlessClass";
 	private static final String USER_CLASS = "User";
 
-	private TextFileGenerator textFileGenerator;
+	private JavaDataClassGenerator javaDataClassGenerator;
+	private File temporaryDirectory;
 
 	@Before
 	public void setUp() throws Exception {
-		textFileGenerator = new TextFileGenerator();
+		javaDataClassGenerator = new JavaDataClassGenerator();
+		temporaryDirectory = Files.createTempDirectory("JAVADATACLASS_").toFile();
 	}
 
 	@Test
@@ -33,10 +36,9 @@ public class TextFileGeneratorTest {
 		List<ClassSpecification> classSpecifications = Arrays.asList(fieldlessClassSpecification,
 				userClassSpecification);
 
-		String templateFileName = "javadataclass.ftl";
-		textFileGenerator.generate(classSpecifications, templateFileName);
-
-		assertTrue(new File(USER_CLASS + ".java").exists());
-		assertTrue(new File(FIELDLESS_CLASS + ".java").exists());
+		javaDataClassGenerator.generateJavaSourceFiles(classSpecifications, temporaryDirectory);
+ 
+		assertTrue(new File(temporaryDirectory, USER_CLASS + ".java").exists());
+		assertTrue(new File(temporaryDirectory, FIELDLESS_CLASS + ".java").exists());
 	}
 }

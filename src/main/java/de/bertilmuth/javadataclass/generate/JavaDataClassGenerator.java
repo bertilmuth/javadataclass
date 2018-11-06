@@ -13,10 +13,12 @@ import freemarker.template.Configuration;
 import freemarker.template.Template;
 import freemarker.template.TemplateExceptionHandler;
 
-public class TextFileGenerator {
+public class JavaDataClassGenerator {
+	private static final String TEMPLATE_FILE_NAME = "javadataclass.ftl";
+	
 	private Configuration configuration;
 
-	public TextFileGenerator() throws IOException {		
+	public JavaDataClassGenerator() throws IOException {		
 		configuration = new Configuration(Configuration.VERSION_2_3_28);
 		configuration.setClassLoaderForTemplateLoading(getClass().getClassLoader(), "");
 		configuration.setDefaultEncoding("UTF-8");
@@ -25,14 +27,14 @@ public class TextFileGenerator {
 		configuration.setWrapUncheckedExceptions(true);
 	}
 
-	public void generate(Collection<ClassSpecification> classSpecifications, String templateFileName) throws Exception {
+	public void generateJavaSourceFiles(Collection<ClassSpecification> classSpecifications, File yamlFileDirectory) throws Exception {
 		Map<String, Object> dataModel = new HashMap<>();
 		
 		for (ClassSpecification classSpecification : classSpecifications) {
 			dataModel.put("classSpecification", classSpecification);
-			Template template = configuration.getTemplate(templateFileName);
+			Template template = configuration.getTemplate(TEMPLATE_FILE_NAME);
 			
-			File outputFile = new File(classSpecification.getClassName() + ".java");
+			File outputFile = new File(yamlFileDirectory, classSpecification.getClassName() + ".java");
 			Writer outputFileWriter = new FileWriter(outputFile);
 			
 			template.process(dataModel, outputFileWriter);
