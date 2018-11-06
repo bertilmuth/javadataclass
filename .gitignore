@@ -1,5 +1,5 @@
 /.gradle/
-/.bin/
+bin
 .settings/org.eclipse.buildship.core.prefs
 .classpath
 .project
