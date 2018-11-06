@@ -14,14 +14,11 @@ import freemarker.template.Template;
 import freemarker.template.TemplateExceptionHandler;
 
 public class TextFileGenerator {
-	private File templateDirectory;
 	private Configuration configuration;
 
-	public TextFileGenerator(File templateDirectory) throws IOException {
-		this.templateDirectory = templateDirectory;
-		
+	public TextFileGenerator() throws IOException {		
 		configuration = new Configuration(Configuration.VERSION_2_3_28);
-		configuration.setDirectoryForTemplateLoading(templateDirectory);
+		configuration.setClassLoaderForTemplateLoading(getClass().getClassLoader(), "");
 		configuration.setDefaultEncoding("UTF-8");
 		configuration.setTemplateExceptionHandler(TemplateExceptionHandler.RETHROW_HANDLER);
 		configuration.setLogTemplateExceptions(false);
@@ -35,7 +32,7 @@ public class TextFileGenerator {
 			dataModel.put("classSpecification", classSpecification);
 			Template template = configuration.getTemplate(templateFileName);
 			
-			File outputFile = new File(templateDirectory, classSpecification.getClassName() + ".java");
+			File outputFile = new File(classSpecification.getClassName() + ".java");
 			Writer outputFileWriter = new FileWriter(outputFile);
 			
 			template.process(dataModel, outputFileWriter);

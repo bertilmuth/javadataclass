@@ -13,7 +13,6 @@ import de.bertilmuth.javadataclass.model.ClassSpecification;
 import de.bertilmuth.javadataclass.model.FieldSpecification;
 
 public class TextFileGeneratorTest {
-	private static final String TEMPLATE_DIRECTORY = "./src/test/resources";
 	private static final String FIELDLESS_CLASS = "FieldlessClass";
 	private static final String USER_CLASS = "User";
 
@@ -21,7 +20,7 @@ public class TextFileGeneratorTest {
 
 	@Before
 	public void setUp() throws Exception {
-		textFileGenerator = new TextFileGenerator(new File(TEMPLATE_DIRECTORY));
+		textFileGenerator = new TextFileGenerator();
 	}
 
 	@Test
@@ -34,10 +33,10 @@ public class TextFileGeneratorTest {
 		List<ClassSpecification> classSpecifications = Arrays.asList(fieldlessClassSpecification,
 				userClassSpecification);
 
-		String templateFileName = "twoclasses.ftl";
+		String templateFileName = "javadataclass.ftl";
 		textFileGenerator.generate(classSpecifications, templateFileName);
 
-		assertTrue(new File(TEMPLATE_DIRECTORY, USER_CLASS + ".java").exists());
-		assertTrue(new File(TEMPLATE_DIRECTORY, FIELDLESS_CLASS + ".java").exists());
+		assertTrue(new File(USER_CLASS + ".java").exists());
+		assertTrue(new File(FIELDLESS_CLASS + ".java").exists());
 	}
 }
