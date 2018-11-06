@@ -3,3 +3,5 @@ bin
 .settings/org.eclipse.buildship.core.prefs
 .classpath
 .project
+src/test/resources/FieldlessClass.java
+src/test/resources/User.java
