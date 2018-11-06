@@ -10,7 +10,7 @@ import org.junit.Test;
 
 import de.bertilmuth.javadataclass.model.ClassSpecification;
 import de.bertilmuth.javadataclass.model.FieldSpecification;
-import de.bertilmuth.javadataclass.read.YamlReader;
+import de.bertilmuth.javadataclass.read.YamlClassSpecificationReader;
 
 public class YamlReaderTest {
 
@@ -80,7 +80,7 @@ public class YamlReaderTest {
 
 	private List<ClassSpecification> readClassSpecifications(String dataClassString) {
 		StringReader reader = new StringReader(dataClassString);
-		List<ClassSpecification> requirements = new YamlReader().readClassSpecifications(reader);
+		List<ClassSpecification> requirements = new YamlClassSpecificationReader().read(reader);
 		return requirements;
 	}
 }

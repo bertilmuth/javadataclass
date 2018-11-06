@@ -1,12 +1,11 @@
 package de.bertilmuth.javadataclass;
 
 import java.io.File;
-import java.io.FileReader;
 import java.util.List;
 
 import de.bertilmuth.javadataclass.generate.JavaDataClassGenerator;
 import de.bertilmuth.javadataclass.model.ClassSpecification;
-import de.bertilmuth.javadataclass.read.YamlReader;
+import de.bertilmuth.javadataclass.read.YamlClassSpecificationReader;
 
 public class Main {
 
@@ -16,14 +15,14 @@ public class Main {
 			return;
 		}
 		final String yamlFilePath = args[0];
-		final FileReader yamlFileReader = new FileReader(yamlFilePath);
-		final File yamlFileDirectory = new File(yamlFilePath).getParentFile();
+		final File yamlFile = new File(yamlFilePath);
+		final File yamlDirectory = yamlFile.getParentFile();
 
-		YamlReader yamlReader = new YamlReader();
-		List<ClassSpecification> classSpecifications = yamlReader.readClassSpecifications(yamlFileReader);
+		YamlClassSpecificationReader yamlReader = new YamlClassSpecificationReader();
+		List<ClassSpecification> classSpecifications = yamlReader.read(yamlFile);
 
 		JavaDataClassGenerator javaDataClassGenerator = new JavaDataClassGenerator();
-		javaDataClassGenerator.generateJavaSourceFiles(classSpecifications, yamlFileDirectory);
+		javaDataClassGenerator.generateJavaSourceFiles(classSpecifications, yamlDirectory);
 
 		System.out.println("Successfully generated class files.");
 	}

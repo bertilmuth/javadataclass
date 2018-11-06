@@ -1,5 +1,8 @@
 package de.bertilmuth.javadataclass.read;
 
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
 import java.io.Reader;
 import java.util.ArrayList;
 import java.util.List;
@@ -10,9 +13,12 @@ import org.yaml.snakeyaml.Yaml;
 import de.bertilmuth.javadataclass.model.ClassSpecification;
 import de.bertilmuth.javadataclass.model.FieldSpecification;
 
-public class YamlReader {
-
-	public List<ClassSpecification> readClassSpecifications(Reader reader) {
+public class YamlClassSpecificationReader {
+	public List<ClassSpecification> read(File yamlFile) throws FileNotFoundException {
+		return read(new FileReader(yamlFile));
+	}
+	
+	public List<ClassSpecification> read(Reader reader) {
 		Map<String, Map<String, String>> yamlClassSpecifications = readYamlClassSpecifications(reader);
 		List<ClassSpecification> classSpecifications = createClassSpecificationsFrom(yamlClassSpecifications);
 		return classSpecifications;
