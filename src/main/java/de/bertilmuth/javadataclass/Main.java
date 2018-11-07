@@ -22,7 +22,7 @@ public class Main {
 		final File yamlFile = new File(yamlFilePath);
 		final File outputDirectory = yamlFile.getParentFile();
 
-		// Step 1: Read in the YAML file, into an in-memory model of class specifications
+		// Step 1: Read in the YAML file, into a model of class specifications
 		YamlClassSpecificationReader yamlReader = new YamlClassSpecificationReader();
 		List<ClassSpecification> classSpecifications = yamlReader.read(yamlFile);
 

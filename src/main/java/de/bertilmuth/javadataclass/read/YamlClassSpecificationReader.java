@@ -12,7 +12,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
-import java.util.function.Function;
 import java.util.stream.Collectors;
 
 import org.yaml.snakeyaml.Yaml;
@@ -42,34 +41,31 @@ public class YamlClassSpecificationReader {
 		return yamlClassSpecifications;
 	}
 
-	private List<ClassSpecification> createClassSpecificationsFrom(
-			Map<String, Map<String, String>> yamlClassSpecifications) {
-		List<ClassSpecification> classSpecifications;
-		
-		classSpecifications = 
-			mapOfClassNameToListOfFieldSpecifications(yamlClassSpecifications).entrySet().stream()
+	private List<ClassSpecification> createClassSpecificationsFrom(Map<String, Map<String, String>> yamlClassSpecifications) {
+		List<ClassSpecification> classSpecifications = 
+			classNameToFieldSpecifications(yamlClassSpecifications).entrySet().stream()
 				.map(e -> new ClassSpecification(e.getKey(), e.getValue()))
 				.collect(toList());
 
 		return classSpecifications;
 	}
 
-	private Map<String, List<FieldSpecification>> mapOfClassNameToListOfFieldSpecifications(
+	private Map<String, List<FieldSpecification>> classNameToFieldSpecifications(
 			Map<String, Map<String, String>> yamlClassSpecificationsOrNull) {
 
 		if (yamlClassSpecificationsOrNull == null)
 			return new HashMap<>();
 
 		return yamlClassSpecificationsOrNull.entrySet().stream()
-				.collect(toMap(className(), listOfFieldSpecifications()));
+				.collect(toMap(this::className, this::fieldSpecifications));
 	}
 	
-	private Function<? super Entry<String, Map<String, String>>, ? extends String> className() {
-		return outerMap -> outerMap.getKey();
+	private String className(Entry<String, Map<String, String>> yamlOuterMapEntry) {
+		return yamlOuterMapEntry.getKey();
 	}
 
-	private Function<? super Entry<String, Map<String, String>>, ? extends List<FieldSpecification>> listOfFieldSpecifications() {
-		return outerMap -> listOfFieldSpecifications(outerMap.getValue());
+	private List<FieldSpecification> fieldSpecifications(Entry<String, Map<String, String>> yamlOuterMapEntry) {
+		return listOfFieldSpecifications(yamlOuterMapEntry.getValue());
 	}
 
 	private List<FieldSpecification> listOfFieldSpecifications(Map<String, String> yamlFieldSpecificationsOrNull) {
@@ -77,7 +73,8 @@ public class YamlClassSpecificationReader {
 			return new ArrayList<>();
 
 		List<FieldSpecification> fieldSpecifications = yamlFieldSpecificationsOrNull.entrySet().stream()
-				.map(e -> new FieldSpecification(e.getKey(), e.getValue())).collect(Collectors.toList());
+				.map(e -> new FieldSpecification(e.getKey(), e.getValue()))
+				.collect(Collectors.toList());
 
 		return fieldSpecifications;
 	}
