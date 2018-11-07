@@ -41,9 +41,10 @@ public class YamlClassSpecificationReader {
 		List<ClassSpecification> classSpecifications;
 		
 		if(yamlClassSpecifications != null) {
-			classSpecifications = mapOfClassNameToFieldSpecifications(yamlClassSpecifications).entrySet().stream()
-				.map(e -> new ClassSpecification(e.getKey(), e.getValue()))
-				.collect(Collectors.toList());
+			classSpecifications = 
+				mapOfClassNameToFieldSpecificationList(yamlClassSpecifications).entrySet().stream()
+					.map(e -> new ClassSpecification(e.getKey(), e.getValue()))
+				.	collect(Collectors.toList());
 		} else {
 			classSpecifications = new ArrayList<>();
 		}
@@ -51,7 +52,7 @@ public class YamlClassSpecificationReader {
 		return classSpecifications;
 	}
 
-	private Map<String, List<FieldSpecification>> mapOfClassNameToFieldSpecifications(
+	private Map<String, List<FieldSpecification>> mapOfClassNameToFieldSpecificationList(
 			Map<String, Map<String, String>> yamlClassSpecifications) {
 		return yamlClassSpecifications.entrySet().stream()
 			.collect(Collectors.toMap(outerMap -> outerMap.getKey(), outerMap -> listOfFieldSpecifications(outerMap.getValue())));
