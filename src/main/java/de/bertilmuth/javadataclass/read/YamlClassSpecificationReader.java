@@ -7,6 +7,7 @@ import java.io.Reader;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 import org.yaml.snakeyaml.Yaml;
 
@@ -56,11 +57,11 @@ public class YamlClassSpecificationReader {
 		final ClassSpecification classSpecification = new ClassSpecification(yamlClassName);
 
 		if (yamlFieldSpecifications != null) {
-			for (String yamlFieldName : yamlFieldSpecifications.keySet()) {
-				String yamlFieldType = yamlFieldSpecifications.get(yamlFieldName);
-				FieldSpecification fieldSpecification = new FieldSpecification(yamlFieldName, yamlFieldType);
-				classSpecification.addFieldSpecification(fieldSpecification);
-			}
+			List<FieldSpecification> fieldSpecifications = yamlFieldSpecifications.entrySet().stream()
+				.map(e -> new FieldSpecification(e.getKey(), e.getValue()))
+				.collect(Collectors.toList());
+
+			fieldSpecifications.forEach(fs -> classSpecification.addFieldSpecification(fs));
 		}
 
 		return classSpecification;
