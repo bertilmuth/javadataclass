@@ -20,8 +20,6 @@ The contents of these two files are:
 
 `User.java`:
 ``` java
-import java.util.*;
-
 public class User{
 	private Name name;
 	private Integer age;
@@ -46,8 +44,6 @@ public class User{
 
 `Name.java`:
 ``` java
-import java.util.*;
-
 public class Name{
 	private String firstName;
 	private String lastName;
