@@ -4,6 +4,7 @@ import static org.junit.Assert.assertTrue;
 
 import java.io.File;
 import java.nio.file.Files;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -28,17 +29,20 @@ public class JavaDataClassGeneratorTest {
 
 	@Test
 	public void generateTwoClasses() throws Exception {
-		ClassSpecification fieldlessClassSpecification = new ClassSpecification(FIELDLESS_CLASS);
-		ClassSpecification userClassSpecification = new ClassSpecification(USER_CLASS);
-		userClassSpecification.addFieldSpecification(new FieldSpecification("name", "String"));
-		userClassSpecification.addFieldSpecification(new FieldSpecification("age", "Integer"));
+		ClassSpecification fieldlessClassSpecification = new ClassSpecification(FIELDLESS_CLASS, new ArrayList<>());
+
+		List<FieldSpecification> userFieldSpecifications = Arrays.asList(new FieldSpecification("name", "String"),
+				new FieldSpecification("age", "Integer"));
+		ClassSpecification userClassSpecification = new ClassSpecification(USER_CLASS, userFieldSpecifications);
 
 		List<ClassSpecification> classSpecifications = Arrays.asList(fieldlessClassSpecification,
 				userClassSpecification);
 
 		javaDataClassGenerator.generateJavaSourceFiles(classSpecifications, temporaryDirectory);
- 
+
 		assertTrue(new File(temporaryDirectory, USER_CLASS + ".java").exists());
 		assertTrue(new File(temporaryDirectory, FIELDLESS_CLASS + ".java").exists());
+		
+		System.out.println("Successfully generated class files to: " + temporaryDirectory.getAbsolutePath());
 	}
 }
