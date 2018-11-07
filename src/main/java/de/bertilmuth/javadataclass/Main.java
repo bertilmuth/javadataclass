@@ -30,6 +30,6 @@ public class Main {
 		JavaDataClassGenerator javaDataClassGenerator = new JavaDataClassGenerator();
 		javaDataClassGenerator.generateJavaSourceFiles(classSpecifications, outputDirectory);
 
-		System.out.println("Successfully generated class files.");
+		System.out.println("Successfully generated class files to: " + outputDirectory.getAbsolutePath());
 	}
 }

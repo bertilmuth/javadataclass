@@ -1,19 +1,17 @@
-import java.util.*;
-
-public class ${classSpecification.className}{
-<#list classSpecification.fieldSpecifications as f>
-	private ${f.fieldType} ${f.fieldName};
+public class ${classSpecification.name}{
+<#list classSpecification.fieldSpecifications as field>
+	private ${field.type} ${field.name};
 </#list>
 
-	public ${classSpecification.className}(){
+	public ${classSpecification.name}(){
 	}
 	
-<#list classSpecification.fieldSpecifications as f>
-	public ${f.fieldType} get${f.fieldName?cap_first}(){
-		return ${f.fieldName};
+<#list classSpecification.fieldSpecifications as field>
+	public ${field.type} get${field.name?cap_first}(){
+		return ${field.name};
 	}
-	public void set${f.fieldName?cap_first}(${f.fieldType} ${f.fieldName}){
-		this.${f.fieldName} = ${f.fieldName};
+	public void set${field.name?cap_first}(${field.type} ${field.name}){
+		this.${field.name} = ${field.name};
 	}
 </#list>	
 }

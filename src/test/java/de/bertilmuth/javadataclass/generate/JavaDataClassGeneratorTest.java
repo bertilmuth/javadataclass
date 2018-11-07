@@ -13,7 +13,7 @@ import org.junit.Test;
 import de.bertilmuth.javadataclass.model.ClassSpecification;
 import de.bertilmuth.javadataclass.model.FieldSpecification;
 
-public class TextFileGeneratorTest {
+public class JavaDataClassGeneratorTest {
 	private static final String FIELDLESS_CLASS = "FieldlessClass";
 	private static final String USER_CLASS = "User";
 

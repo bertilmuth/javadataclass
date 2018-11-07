@@ -1,5 +1,3 @@
-import java.util.*;
-
 public class ${classSpecification.name}{
 <#list classSpecification.fieldSpecifications as field>
 	private ${field.type} ${field.name};
