@@ -17,7 +17,7 @@ public class YamlClassSpecificationReader {
 	public List<ClassSpecification> read(File yamlFile) throws FileNotFoundException {
 		return read(new FileReader(yamlFile));
 	}
-	
+
 	public List<ClassSpecification> read(Reader reader) {
 		Map<String, Map<String, String>> yamlClassSpecifications = readYamlClassSpecifications(reader);
 		List<ClassSpecification> classSpecifications = createClassSpecificationsFrom(yamlClassSpecifications);
@@ -27,17 +27,23 @@ public class YamlClassSpecificationReader {
 	@SuppressWarnings("unchecked")
 	private Map<String, Map<String, String>> readYamlClassSpecifications(Reader reader) {
 		Yaml yaml = new Yaml();
-		Map<String, Map<String, String>> yamlClassSpecifications = (Map<String, Map<String, String>>) yaml.load(reader);
+
+		// Read in the complete YAML file to a map of strings to a map of strings to strings
+		Map<String, Map<String, String>> yamlClassSpecifications = 
+			(Map<String, Map<String, String>>) yaml.load(reader);
+
 		return yamlClassSpecifications;
 	}
 
-	private List<ClassSpecification> createClassSpecificationsFrom(Map<String, Map<String, String>> yamlClassSpecifications) {
+	private List<ClassSpecification> createClassSpecificationsFrom(
+			Map<String, Map<String, String>> yamlClassSpecifications) {
 		List<ClassSpecification> classSpecifications = new ArrayList<>();
 
 		if (yamlClassSpecifications != null) {
 			for (String yamlClassName : yamlClassSpecifications.keySet()) {
 				Map<String, String> yamlFieldSpecifications = yamlClassSpecifications.get(yamlClassName);
-				ClassSpecification classSpecification = createClassSpecification(yamlClassName, yamlFieldSpecifications);
+				ClassSpecification classSpecification = createClassSpecification(yamlClassName,
+						yamlFieldSpecifications);
 				classSpecifications.add(classSpecification);
 			}
 		}
@@ -45,9 +51,10 @@ public class YamlClassSpecificationReader {
 		return classSpecifications;
 	}
 
-	private ClassSpecification createClassSpecification(String yamlClassName, Map<String, String> yamlFieldSpecifications) {
+	private ClassSpecification createClassSpecification(String yamlClassName,
+			Map<String, String> yamlFieldSpecifications) {
 		final ClassSpecification classSpecification = new ClassSpecification(yamlClassName);
-		
+
 		if (yamlFieldSpecifications != null) {
 			for (String yamlFieldName : yamlFieldSpecifications.keySet()) {
 				String yamlFieldType = yamlFieldSpecifications.get(yamlFieldName);
@@ -55,7 +62,7 @@ public class YamlClassSpecificationReader {
 				classSpecification.addFieldSpecification(fieldSpecification);
 			}
 		}
-		
+
 		return classSpecification;
 	}
 }
