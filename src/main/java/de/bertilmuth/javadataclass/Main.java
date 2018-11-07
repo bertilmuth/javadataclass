@@ -22,11 +22,11 @@ public class Main {
 		final File yamlFile = new File(yamlFilePath);
 		final File outputDirectory = yamlFile.getParentFile();
 
-		// Step 1: Read in the YAML file, into class specification objects
+		// Step 1: Read in the YAML file, into class specifications
 		YamlClassSpecificationReader yamlReader = new YamlClassSpecificationReader();
 		List<ClassSpecification> classSpecifications = yamlReader.read(yamlFile);
 
-		// Step 2: Generate Java source files from the class specification objects
+		// Step 2: Generate Java source files from the class specifications
 		JavaDataClassGenerator javaDataClassGenerator = new JavaDataClassGenerator();
 		javaDataClassGenerator.generateJavaSourceFiles(classSpecifications, outputDirectory);
 
