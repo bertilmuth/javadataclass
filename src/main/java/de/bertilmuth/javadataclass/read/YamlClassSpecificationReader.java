@@ -50,7 +50,7 @@ public class YamlClassSpecificationReader {
 		
 		if (yamlFieldSpecifications != null) {
 			for (String yamlFieldName : yamlFieldSpecifications.keySet()) {
-				String yamlFieldType = (String) yamlFieldSpecifications.get(yamlFieldName);
+				String yamlFieldType = yamlFieldSpecifications.get(yamlFieldName);
 				FieldSpecification fieldSpecification = new FieldSpecification(yamlFieldName, yamlFieldType);
 				classSpecification.addFieldSpecification(fieldSpecification);
 			}
