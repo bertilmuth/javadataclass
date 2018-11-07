@@ -38,32 +38,32 @@ public class YamlClassSpecificationReader {
 
 	private List<ClassSpecification> createClassSpecificationsFrom(
 			Map<String, Map<String, String>> yamlClassSpecifications) {
-		List<ClassSpecification> classSpecifications = new ArrayList<>();
-
-		if (yamlClassSpecifications != null) {
-			for (String yamlClassName : yamlClassSpecifications.keySet()) {
-				Map<String, String> yamlFieldSpecifications = yamlClassSpecifications.get(yamlClassName);
-				ClassSpecification classSpecification = createClassSpecification(yamlClassName,
-						yamlFieldSpecifications);
-				classSpecifications.add(classSpecification);
-			}
+		List<ClassSpecification> classSpecifications;
+		
+		if(yamlClassSpecifications != null) {
+			classSpecifications = yamlClassSpecifications.entrySet().stream()
+				.collect(Collectors.toMap(outerMap -> outerMap.getKey(), outerMap -> createFieldSpecifications(outerMap.getValue())))
+				.entrySet().stream()
+				.map(e -> new ClassSpecification(e.getKey(), e.getValue()))
+				.collect(Collectors.toList());
+		} else {
+			classSpecifications = new ArrayList<>();
 		}
 
 		return classSpecifications;
 	}
-
-	private ClassSpecification createClassSpecification(String yamlClassName,
-			Map<String, String> yamlFieldSpecifications) {
-		final ClassSpecification classSpecification = new ClassSpecification(yamlClassName);
-
+	
+	private List<FieldSpecification> createFieldSpecifications(Map<String, String> yamlFieldSpecifications) {
+		List<FieldSpecification> fieldSpecifications;
+		
 		if (yamlFieldSpecifications != null) {
-			List<FieldSpecification> fieldSpecifications = yamlFieldSpecifications.entrySet().stream()
+			fieldSpecifications = yamlFieldSpecifications.entrySet().stream()
 				.map(e -> new FieldSpecification(e.getKey(), e.getValue()))
 				.collect(Collectors.toList());
-
-			fieldSpecifications.forEach(fs -> classSpecification.addFieldSpecification(fs));
+		} else {
+			fieldSpecifications = new ArrayList<>();
 		}
 
-		return classSpecification;
+		return fieldSpecifications;
 	}
 }

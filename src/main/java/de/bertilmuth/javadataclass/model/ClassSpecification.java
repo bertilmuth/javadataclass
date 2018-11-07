@@ -9,8 +9,12 @@ public class ClassSpecification {
 	private List<FieldSpecification> fieldSpecifications;
 
 	public ClassSpecification(String className) {
+		this(className, new ArrayList<>());
+	}
+	
+	public ClassSpecification(String className, List<FieldSpecification> fieldSpecifications) {
 		this.name = className;
-		this.fieldSpecifications = new ArrayList<>();
+		this.fieldSpecifications = fieldSpecifications;
 	}
 
 	public String getName() {
