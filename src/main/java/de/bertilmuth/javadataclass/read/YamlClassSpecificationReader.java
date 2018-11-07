@@ -1,12 +1,18 @@
 package de.bertilmuth.javadataclass.read;
 
+import static java.util.stream.Collectors.toList;
+import static java.util.stream.Collectors.toMap;
+
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.Reader;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
+import java.util.function.Function;
 import java.util.stream.Collectors;
 
 import org.yaml.snakeyaml.Yaml;
@@ -40,34 +46,38 @@ public class YamlClassSpecificationReader {
 			Map<String, Map<String, String>> yamlClassSpecifications) {
 		List<ClassSpecification> classSpecifications;
 		
-		if(yamlClassSpecifications != null) {
-			classSpecifications = 
-				mapOfClassNameToFieldSpecificationList(yamlClassSpecifications).entrySet().stream()
-					.map(e -> new ClassSpecification(e.getKey(), e.getValue()))
-				.	collect(Collectors.toList());
-		} else {
-			classSpecifications = new ArrayList<>();
-		}
+		classSpecifications = 
+			mapOfClassNameToListOfFieldSpecifications(yamlClassSpecifications).entrySet().stream()
+				.map(e -> new ClassSpecification(e.getKey(), e.getValue()))
+				.collect(toList());
 
 		return classSpecifications;
 	}
 
-	private Map<String, List<FieldSpecification>> mapOfClassNameToFieldSpecificationList(
-			Map<String, Map<String, String>> yamlClassSpecifications) {
-		return yamlClassSpecifications.entrySet().stream()
-			.collect(Collectors.toMap(outerMap -> outerMap.getKey(), outerMap -> listOfFieldSpecifications(outerMap.getValue())));
+	private Map<String, List<FieldSpecification>> mapOfClassNameToListOfFieldSpecifications(
+			Map<String, Map<String, String>> yamlClassSpecificationsOrNull) {
+
+		if (yamlClassSpecificationsOrNull == null)
+			return new HashMap<>();
+
+		return yamlClassSpecificationsOrNull.entrySet().stream()
+				.collect(toMap(className(), listOfFieldSpecifications()));
 	}
 	
-	private List<FieldSpecification> listOfFieldSpecifications(Map<String, String> yamlFieldSpecifications) {
-		List<FieldSpecification> fieldSpecifications;
-		
-		if (yamlFieldSpecifications != null) {
-			fieldSpecifications = yamlFieldSpecifications.entrySet().stream()
-				.map(e -> new FieldSpecification(e.getKey(), e.getValue()))
-				.collect(Collectors.toList());
-		} else {
-			fieldSpecifications = new ArrayList<>();
-		}
+	private Function<? super Entry<String, Map<String, String>>, ? extends String> className() {
+		return outerMap -> outerMap.getKey();
+	}
+
+	private Function<? super Entry<String, Map<String, String>>, ? extends List<FieldSpecification>> listOfFieldSpecifications() {
+		return outerMap -> listOfFieldSpecifications(outerMap.getValue());
+	}
+
+	private List<FieldSpecification> listOfFieldSpecifications(Map<String, String> yamlFieldSpecificationsOrNull) {
+		if (yamlFieldSpecificationsOrNull == null)
+			return new ArrayList<>();
+
+		List<FieldSpecification> fieldSpecifications = yamlFieldSpecificationsOrNull.entrySet().stream()
+				.map(e -> new FieldSpecification(e.getKey(), e.getValue())).collect(Collectors.toList());
 
 		return fieldSpecifications;
 	}
