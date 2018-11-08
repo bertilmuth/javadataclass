@@ -13,9 +13,7 @@ import freemarker.template.Configuration;
 import freemarker.template.Template;
 import freemarker.template.TemplateExceptionHandler;
 
-public class JavaDataClassGenerator {
-	private static final String TEMPLATE_FILE_NAME = "javadataclass.ftl";
-	
+public class JavaDataClassGenerator {	
 	private Configuration configuration;
 
 	public JavaDataClassGenerator() throws IOException {		
@@ -30,14 +28,20 @@ public class JavaDataClassGenerator {
 	public void generateJavaSourceFiles(Collection<ClassSpecification> classSpecifications, File yamlFileDirectory) throws Exception {
 		Map<String, Object> dataModel = new HashMap<>();
 		
+		// Get the template to generate Java source files
+		Template template = configuration.getTemplate("javadataclass.ftl");
+		
 		for (ClassSpecification classSpecification : classSpecifications) {
+			// Put the classSpecification into the data model.
+			// It can  be accessed in the template through ${classSpecification}
 			dataModel.put("classSpecification", classSpecification);
-			Template template = configuration.getTemplate(TEMPLATE_FILE_NAME);
 			
-			File outputFile = new File(yamlFileDirectory, classSpecification.getName() + ".java");
-			Writer outputFileWriter = new FileWriter(outputFile);
+			// The Java source file will be generated in the same directory as the YAML file
+			File javaSourceFile = new File(yamlFileDirectory, classSpecification.getName() + ".java");
+			Writer javaSourceFileWriter = new FileWriter(javaSourceFile);
 			
-			template.process(dataModel, outputFileWriter);
+			// Generate the Java source file
+			template.process(dataModel, javaSourceFileWriter);
 		}
 	}
 }
