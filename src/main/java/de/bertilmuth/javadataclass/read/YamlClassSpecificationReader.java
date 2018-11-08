@@ -42,15 +42,18 @@ public class YamlClassSpecificationReader {
 	}
 
 	private List<ClassSpecification> createClassSpecificationsFrom(Map<String, Map<String, String>> yamlClassSpecifications) {
+		final Map<String, List<FieldSpecification>> classNameToFieldSpecificationsMap 
+			= createClassNameToFieldSpecificationsMap(yamlClassSpecifications);
+		
 		List<ClassSpecification> classSpecifications = 
-			classNameToFieldSpecifications(yamlClassSpecifications).entrySet().stream()
+			classNameToFieldSpecificationsMap.entrySet().stream()
 				.map(e -> new ClassSpecification(e.getKey(), e.getValue()))
 				.collect(toList());
 
 		return classSpecifications;
 	}
 
-	private Map<String, List<FieldSpecification>> classNameToFieldSpecifications(
+	private Map<String, List<FieldSpecification>> createClassNameToFieldSpecificationsMap(
 			Map<String, Map<String, String>> yamlClassSpecificationsOrNull) {
 
 		if (yamlClassSpecificationsOrNull == null)
