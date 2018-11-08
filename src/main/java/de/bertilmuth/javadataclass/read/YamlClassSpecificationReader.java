@@ -54,12 +54,11 @@ public class YamlClassSpecificationReader {
 	}
 
 	private Map<String, List<FieldSpecification>> createClassNameToFieldSpecificationsMap(
-			Map<String, Map<String, String>> yamlClassSpecificationsOrNull) {
+			Map<String, Map<String, String>> yamlClassSpecifications) {
 
-		if (yamlClassSpecificationsOrNull == null)
-			return new HashMap<>();
+		if (yamlClassSpecifications == null) return new HashMap<>();
 
-		return yamlClassSpecificationsOrNull.entrySet().stream()
+		return yamlClassSpecifications.entrySet().stream()
 				.collect(toMap(this::className, this::fieldSpecifications));
 	}
 	
@@ -68,17 +67,12 @@ public class YamlClassSpecificationReader {
 	}
 
 	private List<FieldSpecification> fieldSpecifications(Entry<String, Map<String, String>> yamlOuterMapEntry) {
-		return listOfFieldSpecifications(yamlOuterMapEntry.getValue());
-	}
+		Map<String, String> yamlFieldSpecifications = yamlOuterMapEntry.getValue();
+		
+		if (yamlFieldSpecifications == null) return new ArrayList<>();
 
-	private List<FieldSpecification> listOfFieldSpecifications(Map<String, String> yamlFieldSpecificationsOrNull) {
-		if (yamlFieldSpecificationsOrNull == null)
-			return new ArrayList<>();
-
-		List<FieldSpecification> fieldSpecifications = yamlFieldSpecificationsOrNull.entrySet().stream()
+		return yamlFieldSpecifications.entrySet().stream()
 				.map(e -> new FieldSpecification(e.getKey(), e.getValue()))
 				.collect(Collectors.toList());
-
-		return fieldSpecifications;
 	}
 }
