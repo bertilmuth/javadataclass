@@ -18,7 +18,10 @@ public class JavaDataClassGenerator {
 
 	public JavaDataClassGenerator() throws IOException {		
 		configuration = new Configuration(Configuration.VERSION_2_3_28);
+		
+		// Set the root of the class path ("") as the location to find templates
 		configuration.setClassLoaderForTemplateLoading(getClass().getClassLoader(), "");
+		
 		configuration.setDefaultEncoding("UTF-8");
 		configuration.setTemplateExceptionHandler(TemplateExceptionHandler.RETHROW_HANDLER);
 		configuration.setLogTemplateExceptions(false);
