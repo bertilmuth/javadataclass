@@ -26,7 +26,7 @@ public class JavaDataClassGenerator {
 	}
 
 	public void generateJavaSourceFiles(Collection<ClassSpecification> classSpecifications, File yamlFileDirectory) throws Exception {
-		Map<String, Object> dataModel = new HashMap<>();
+		Map<String, Object> freemarkerDataModel = new HashMap<>();
 		
 		// Get the template to generate Java source files
 		Template template = configuration.getTemplate("javadataclass.ftl");
@@ -34,14 +34,14 @@ public class JavaDataClassGenerator {
 		for (ClassSpecification classSpecification : classSpecifications) {
 			// Put the classSpecification into the data model.
 			// It can  be accessed in the template through ${classSpecification}
-			dataModel.put("classSpecification", classSpecification);
+			freemarkerDataModel.put("classSpecification", classSpecification);
 			
 			// The Java source file will be generated in the same directory as the YAML file
 			File javaSourceFile = new File(yamlFileDirectory, classSpecification.getName() + ".java");
 			Writer javaSourceFileWriter = new FileWriter(javaSourceFile);
 			
 			// Generate the Java source file
-			template.process(dataModel, javaSourceFileWriter);
+			template.process(freemarkerDataModel, javaSourceFileWriter);
 		}
 	}
 }
