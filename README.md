@@ -1,5 +1,6 @@
 # javadataclass
 A simple Java source file generator, that takes a YAML file as an input.
+You find a description in this [article](https://dev.to/bertilmuth/generating-data-classes-in-java-4cef).
 
 Here's the content of an example YAML file:
 ``` yaml
