@@ -5,3 +5,4 @@ bin
 .project
 src/test/resources/FieldlessClass.java
 src/test/resources/User.java
+/build/

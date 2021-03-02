@@ -1,11 +1,106 @@
-apply plugin: 'java'
+plugins {
+    id 'java-library'
+    id 'maven-publish'
+    id 'signing'
+    id 'eclipse'
+}
+
+group = 'org.requirementsascode'
+version = '0.1-SNAPSHOT'
+
+compileJava {
+  sourceCompatibility = '1.8'
+  targetCompatibility = '1.8'
+}
 
 repositories {
 	mavenCentral()
+	maven {
+        url "https://oss.sonatype.org/content/repositories/snapshots/"
+    }
 }
 
 dependencies {
-	compile 'org.freemarker:freemarker:2.3.31'
-	compile 'org.yaml:snakeyaml:1.28'
+	implementation 'org.freemarker:freemarker:2.3.31'
+	implementation 'org.yaml:snakeyaml:1.28'
     testImplementation 'junit:junit:4.12'
+}
+
+jar {
+    manifest {
+        attributes 'Implementation-Title': 'javadataclass',
+                   'Implementation-Version': archiveVersion
+    }
+}
+
+task javadocJar(type: Jar) {
+	from javadoc
+}
+
+task sourcesJar(type: Jar) {
+	from sourceSets.main.allSource
+}
+
+artifacts {
+    archives javadocJar, sourcesJar
+}
+
+publishing {
+	publications {
+		mavenJava(MavenPublication) {
+			pom{
+				name = 'javadataclass'
+				description = 'A simple Java source file generator, that takes a YAML file as an input.'
+				url = 'http://requirementsascode.org/'
+				packaging = 'jar'
+				
+				from components.java
+				         				
+  				artifact javadocJar {
+					classifier "javadoc"
+  				}
+				
+				artifact sourcesJar {
+					classifier "sources"
+  				}
+
+				licenses {
+					license {
+						name = 'The Apache Software License, Version 2.0'
+						url = 'http://www.apache.org/licenses/LICENSE-2.0.txt'
+					}
+				}
+				
+				developers {
+					developer {
+						id = 'bertilmuth'
+						name = 'Bertil Muth'
+					}
+				}
+				
+				scm {
+					url = 'scm:git@github.com:bertilmuth/requirementsascode.git'
+					connection = 'scm:git@github.com:bertilmuth/requirementsascode.git'
+					developerConnection = 'scm:git@github.com:bertilmuth/requirementsascode.git'
+				}
+			}
+		}
+	}
+	
+	repositories {
+		maven {
+			credentials {
+				username sonatypeUsername
+				password sonatypePassword
+			}
+			
+			def releasesRepoUrl = "https://oss.sonatype.org/service/local/staging/deploy/maven2/"
+			def snapshotsRepoUrl = "https://oss.sonatype.org/content/repositories/snapshots/"
+			url = version.endsWith('SNAPSHOT') ? snapshotsRepoUrl : releasesRepoUrl
+		}
+	}
+}
+
+signing {
+	sign publishing.publications.mavenJava
 }
