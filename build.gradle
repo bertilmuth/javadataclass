@@ -5,7 +5,7 @@ repositories {
 }
 
 dependencies {
-	compile 'org.freemarker:freemarker:2.3.28'
-	compile 'org.yaml:snakeyaml:1.23'
+	compile 'org.freemarker:freemarker:2.3.31'
+	compile 'org.yaml:snakeyaml:1.28'
     testImplementation 'junit:junit:4.12'
 }

@@ -10,7 +10,6 @@ import org.junit.Test;
 
 import de.bertilmuth.javadataclass.model.ClassSpecification;
 import de.bertilmuth.javadataclass.model.FieldSpecification;
-import de.bertilmuth.javadataclass.read.YamlClassSpecificationReader;
 
 public class YamlReaderTest {
 
