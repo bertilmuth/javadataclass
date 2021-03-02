@@ -1,4 +1,5 @@
 # Javadataclass
+[![Build Status](https://travis-ci.com/bertilmuth/javadataclass.svg?branch=master)](https://travis-ci.com/bertilmuth/javadataclass)
 [![Gitter](https://badges.gitter.im/requirementsascode/community.svg)](https://gitter.im/requirementsascode/community?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge)
 
 A simple Java source file generator, that takes a YAML file as an input.
